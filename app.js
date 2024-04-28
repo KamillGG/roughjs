@@ -1,12 +1,14 @@
 const svg = document.querySelector("#svg");
 let rc = rough.svg(svg);
-var defHeight = document.getElementById("svgCont").offsetHeight / 2;
-var defWidth = document.getElementById("svgCont").offsetWidth / 2;
-var config = [
-  { directions: [[{ y: defHeight, x: defWidth }]] },
-  { width: "100px", height: "100px", gap: "10px" },
-];
-let init = rc.rectangle(defWidth, defHeight, 100, 100);
+const widthConst = 200
+const heightConst = 100
+const defHeight = (document.getElementById("svgCont").offsetHeight / 2) - (heightConst/2);
+const defWidth = (document.getElementById("svgCont").offsetWidth / 2) - (widthConst/2);
+var config = {
+  directions: [{y:defHeight,x:defWidth}],
+  data: {width: widthConst, height: heightConst, gap: 20 },
+};
+let init = rc.rectangle(defWidth, defHeight, config.data.width, config.data.height);
 var currentIndex = { x: 0, y: 0 };
 svg.appendChild(init);
 var controls = document.getElementsByClassName("controls");
@@ -16,39 +18,82 @@ for (let i = 0; i <= controls.length - 1; i++) {
   });
 }
 function generateItems(direction) {
+  let x = config.directions[config.directions.length-1].x
+  let y = config.directions[config.directions.length-1].y
+  console.log(x,y)
   switch (direction) {
     case "left":
-      generateLeft();
+      x-=config.data.width +config.data.gap
       break;
     case "right":
-      generateRight();
+      x+=config.data.width +config.data.gap
       break;
     case "bottom":
-      generateBottom();
+      y+=config.data.height +config.data.gap
       break;
-    case "up":
-      generateUp();
+    case "top":
+      y-=config.data.height +config.data.gap
       break;
   }
-  console.log(config);
-}
-function generateLeft() {
-  config[0].directions[currentIndex.x][currentIndex.y - 1] = { x: 100, y: 200 };
-}
-function generateRight() {
-  config[0].directions[currentIndex.x][currentIndex.y + 1] = { x: 100, y: 200 };
-}
-function generateUp() {
-  if (config[0].directions[currentIndex.x + 1] == undefined) {
-    config[0].directions[currentIndex.x + 1] = [];
+  if(!config.directions.some(el => el.x===x && el.y===y)){
+    generateRect(x,y)
   }
-  if (config[0].directions[currentIndex.x + 1][currentIndex.y])
-    console.table(config[0].directions);
-  config[0].directions[currentIndex.x + 1][currentIndex.y].push({
-    x: 100,
-    y: 200,
-  });
 }
-function generateBottom() {
-  config[0].directions[currentIndex.x - 1][currentIndex.y] = { x: 100, y: 200 };
+function generateRect(x,y){
+  let xBack = config.directions[config.directions.length-1].x
+  let yBack = config.directions[config.directions.length-1].y
+const ne = rc.rectangle(x, y, config.data.width, config.data.height);
+svg.appendChild(ne)
+var line
+if(xBack>x){
+  line = rc.line(xBack,yBack+(config.data.height/2),x+config.data.width,y+(config.data.height/2))
+}
+else if(xBack<x){
+  line = rc.line(xBack+config.data.width,yBack+(config.data.height/2),x,y+(config.data.height/2))
+}
+else if(yBack>y){
+  line = rc.line(xBack+(config.data.width/2),yBack,x+(config.data.width/2),y+config.data.height)
+}
+else{
+  line = rc.line(xBack+(config.data.width/2),yBack+config.data.height,x+(config.data.width/2),y)
+}
+svg.appendChild(line)
+var temp = {"y":y,"x":x};
+console.log(config.directions)
+console.log(temp)
+hideButtons(x,y)
+config.directions.push(temp)
+}
+function hideButtons(x,y){
+  for(var i=0;i<=3;i++){
+    let tempx =x
+    let tempy =y
+    let direction
+    switch(i){
+      case 0:
+        tempx+=config.data.width+config.data.gap
+        direction = "right"
+        break;
+      case 1:
+        tempx-=config.data.width+config.data.gap
+        direction = "left"
+        break;
+      case 2:
+        tempy+=config.data.height+config.data.gap
+        direction = "bottom"
+        break;
+      case 3:
+        tempy-=config.data.height+config.data.gap
+        direction = "top"
+        break;
+    }
+    if(config.directions.some(el => el.x==tempx && el.y==tempy)){
+      console.log(direction)
+      document.querySelector(`#${direction}`).style.visibility= "hidden"
+    }
+    else{
+      console.log(tempx,tempy)
+      document.querySelector(`#${direction}`).style.visibility = "visible"
+    }
+  }
 }

@@ -10,8 +10,67 @@ body {
 }
 #interface {
   grid-area: interface;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 svg {
   width: 100%;
   height: 100%;
+}
+
+#leftRight{
+  display: flex;
+  flex-direction: row;
+  gap: 75px;
+}
+.controls {
+  width: 75px;
+  height: 75px;
+  border: none;
+  background-color: #f0f0f0; /* Light gray background */
+  border-radius: 50%; /* Round shape */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.controls:hover {
+  background-color: #ddd; /* Darker gray on hover */
+}
+
+/* Left arrow */
+#top{
+  background-image: url(./icons8-direction-arrow-50.png);
+  background-size: 30%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* Right arrow */
+#left {
+  background-image: url(./icons8-direction-arrow-50.png);
+  background-size: 30%;
+  background-repeat: no-repeat;
+  background-position: center;
+  transform: rotate(270deg);
+}
+
+/* Top arrow */
+#right {
+  background-image: url(./icons8-direction-arrow-50.png);
+  background-size: 30%;
+  background-repeat: no-repeat;
+  background-position: center;
+  transform: rotate(90deg);
+}
+
+/* Bottom arrow */
+#bottom {
+  background-image: url(./icons8-direction-arrow-50.png);
+  background-size: 30%;
+  background-repeat: no-repeat;
+  background-position: center;
+  transform: rotate(180deg);
 }
