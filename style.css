@@ -9,6 +9,7 @@ body {
   grid-area: game;
 }
 #interface {
+  border-top: solid black 1px;
   grid-area: interface;
   display: flex;
   flex-direction: column;
