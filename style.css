@@ -22,14 +22,14 @@ svg {
   height: 100%;
 }
 
-#leftRight{
+#leftRight {
   display: flex;
   flex-direction: row;
   gap: 75px;
 }
 .controls {
-  width: 75px;
-  height: 75px;
+  width: 50px;
+  height: 50px;
   border: none;
   background-color: #f0f0f0; /* Light gray background */
   border-radius: 50%; /* Round shape */
@@ -42,7 +42,7 @@ svg {
 }
 
 /* Left arrow */
-#top{
+#top {
   background-image: url(./icons8-direction-arrow-50.png);
   background-size: 30%;
   background-repeat: no-repeat;
